@@ -1,0 +1,368 @@
+:root {
+  /* Future Cyber Palette */
+  --bg-void: #030305;
+  --bg-panel: rgba(10, 10, 15, 0.6);
+  --cyan: #00f3ff;
+  --fuchsia: #bc13fe;
+  --white: #ffffff;
+  --text-muted: #8892b0;
+
+  --font-main: "Cairo", sans-serif;
+  --border-glow: 0 0 10px rgba(0, 243, 255, 0.4);
+  --text-glow: 0 0 15px rgba(0, 243, 255, 0.3);
+
+  --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--bg-void);
+  font-family: var(--font-main);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* Sci-fi Background Grid */
+.bg-grad {
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(transparent 95%, rgba(0, 243, 255, 0.1) 96%, rgba(0, 243, 255, 0.4) 100%),
+    linear-gradient(90deg, transparent 95%, rgba(188, 19, 254, 0.1) 96%, rgba(188, 19, 254, 0.4) 100%);
+  background-size: 60px 60px;
+  perspective: 500px;
+  transform-style: preserve-3d;
+  animation: gridMove 20s linear infinite;
+  z-index: -2;
+  opacity: 0.3;
+}
+
+.bg-grad::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(188, 19, 254, 0.2), transparent 70%);
+}
+
+@keyframes gridMove {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(60px);
+  }
+}
+
+.page {
+  width: 100%;
+  max-width: 460px;
+  /* Mobile First default */
+  padding: 24px;
+  position: relative;
+  z-index: 1000;
+  transition: max-width 0.3s ease;
+}
+
+/* Holographic Card */
+.card {
+  position: relative;
+  background: var(--bg-panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 243, 255, 0.15);
+  padding: 40px 24px;
+  /* Cyberpunk cut corners */
+  clip-path: polygon(20px 0, 100% 0,
+      100% calc(100% - 20px), calc(100% - 20px) 100%,
+      0 100%, 0 20px);
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.05);
+}
+
+/* Decorative corner lines – don't block clicks */
+.card::before,
+.card::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--cyan);
+  transition: var(--transition);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.card::before {
+  top: 0;
+  left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+.card::after {
+  bottom: 0;
+  right: 0;
+  border-left: none;
+  border-top: none;
+}
+
+.card:hover::before,
+.card:hover::after {
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+}
+
+.card__header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* Hexagon/Circle Hybrid Avatar */
+.avatar {
+  width: 100px;
+  height: 100px;
+  margin: 0 auto 16px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--bg-void), #111);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(0, 243, 255, 0.2);
+}
+
+/* Spinning ring */
+.avatar::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--cyan);
+  border-bottom-color: var(--fuchsia);
+  animation: spin 6s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.avatar__initial {
+  font-size: 2.5rem;
+  color: var(--white);
+  font-weight: 700;
+  text-shadow: var(--text-glow);
+}
+
+.avatar__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--white);
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.divider-text {
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--cyan);
+  margin: 0 0 20px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  position: relative;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Cyber Buttons – full clickable area, no clip-path */
+.link-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--white);
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+  border-radius: 8px;
+  cursor: pointer;
+  /* angled look via border-radius + one cut corner visual kept with box-shadow if needed */
+}
+
+
+/* Ensure content stays on top of effects and is clickable */
+.link-btn>* {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.link-btn:hover {
+  background: rgba(0, 243, 255, 0.1);
+  border-color: var(--cyan);
+  /* padding-left: 24px; REMOVED to stop jitter */
+  transform: translateX(-5px);
+  /* Move entire button slightly left */
+}
+
+
+/* Primary Button Special */
+.link-btn.primary {
+  background: rgba(0, 243, 255, 0.15);
+  border-color: var(--cyan);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+}
+
+.link-btn.primary:hover {
+  background: var(--cyan);
+  color: #000;
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.4);
+}
+
+/* Image/Icons in Buttons */
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  object-fit: cover;
+}
+
+.link-btn:hover .btn-icon {
+  border-color: var(--cyan);
+}
+
+/* Footer */
+.card__footer {
+  margin-top: 40px;
+  text-align: center;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  padding-top: 20px;
+}
+
+.ayah {
+  font-size: 0.95rem;
+  color: var(--fuchsia);
+  text-shadow: 0 0 5px rgba(188, 19, 254, 0.4);
+  margin-bottom: 8px;
+}
+
+.meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.meta__file {
+  color: var(--cyan);
+  background: rgba(0, 243, 255, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Scanline Overlay (Optional for true CRT feel) */
+body::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 2px;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN (PC/Tablet Enhancements)
+   ========================================= */
+
+@media (min-width: 768px) {
+  .page {
+    max-width: 600px;
+    padding: 40px;
+  }
+
+  .card {
+    padding: 48px 40px;
+    clip-path: polygon(30px 0, 100% 0,
+        100% calc(100% - 30px), calc(100% - 30px) 100%,
+        0 100%, 0 30px);
+  }
+
+  /* Make decorative corners larger on big screens */
+  .card::before,
+  .card::after {
+    width: 30px;
+    height: 30px;
+  }
+
+  .avatar {
+    width: 120px;
+    height: 120px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    max-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .link-btn {
+    padding: 18px 24px;
+    font-size: 1.1rem;
+  }
+
+  .btn-icon {
+    width: 42px;
+    height: 42px;
+  }
+}
